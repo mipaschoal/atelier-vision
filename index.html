@@ -1,0 +1,129 @@
+git branch -M main
+git remote add origin https://github.com/mipaschoal/AtelierVision.git
+git push -u origin main
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier Vision | Vitrine Virtual</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="showHome()">ATELIER VISION</div>
+        <nav>
+            <a href="#" onclick="showHome()">Home</a>
+        </nav>
+    </header>
+
+    <main id="home-page" class="container">
+        <h1 class="main-title">Coleção Digital</h1>
+        <div class="product-grid">
+            
+            <div class="product-card" onclick="openProduct('camiseta')">
+                <img src="images/camiseta.jpg" alt="Camiseta">
+                <h3>Camiseta Vision</h3>
+                <span class="view-details">Ver em 360°</span>
+            </div>
+
+            <div class="product-card" onclick="openProduct('jaqueta')">
+                <img src="images/jaqueta.jpg" alt="Jaqueta">
+                <h3>Jaqueta Vision</h3>
+                <span class="view-details">Ver em 360°</span>
+            </div>
+
+            <div class="product-card" onclick="openProduct('calca')">
+                <img src="images/calca.jpg" alt="Calça">
+                <h3>Calça Vision</h3>
+                <span class="view-details">Ver em 360°</span>
+            </div>
+
+        </div>
+    </main>
+
+  <section id="product-page" class="container hidden">
+        <button class="back-btn" onclick="showHome()">← Voltar para a Vitrine</button>
+        
+        <div class="product-display">
+            <div class="visual-container">
+                <model-viewer id="glb-viewer" 
+                              src="" 
+                              ar 
+                              camera-controls 
+                              touch-action="pan-y" 
+                              shadow-intensity="1" 
+                              auto-rotate>
+                </model-viewer>
+                
+                <div class="photo-gallery">
+                    <img id="product-thumb" src="" alt="Foto do produto">
+                </div>
+            </div>
+
+            <div class="product-info">
+                <h2 id="product-title">Nome do Produto</h2>
+                <p id="product-desc">Descrição da peça...</p>
+                
+                <div class="colors-section">
+                    <h4>Cores Disponíveis:</h4>
+                    <div class="color-options">
+                        <span class="color-dot black"></span>
+                        <span class="color-dot white"></span>
+                        <span class="color-dot gray"></span>
+                    </div>
+                </div>
+
+                <button class="buy-btn">Comprar Peça</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Banco de dados simulado para preencher a página do produto
+        const productsData = {
+            camiseta: {
+                title: "Camiseta Vision",
+                desc: "Camiseta de algodão premium com modelagem oversized e caimento perfeito. Desenvolvida para o dia a dia com estética minimalista.",
+                glb: "models/camiseta.glb",
+                img: "images/camiseta.jpg"
+            },
+            jaqueta: {
+                title: "Jaqueta Vision",
+                desc: "Jaqueta estruturada com acabamento refinado. Resistente à água e ideal para sobreposições modernas.",
+                glb: "models/jaqueta.glb",
+                img: "images/jaqueta.jpg"
+            },
+            calca: {
+                title: "Calça Vision",
+                desc: "Calça de alfaiataria moderna com corte reto e conforto extremo. Bolsos utilitários discretos.",
+                glb: "models/calca.glb",
+                img: "images/calca.jpg"
+            }
+        };
+
+        function openProduct(productId) {
+            const product = productsData[productId];
+            
+            // Atualiza os dados na tela
+            document.getElementById('product-title').innerText = product.title;
+            document.getElementById('product-desc').innerText = product.desc;
+            document.getElementById('glb-viewer').setAttribute('src', product.glb);
+            document.getElementById('product-thumb').src = product.img;
+
+            // Altera a visibilidade das páginas
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('product-page').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showHome() {
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('product-page').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
